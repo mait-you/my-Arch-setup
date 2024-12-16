@@ -242,7 +242,7 @@ mount /dev/LVMGroup/var-log /mnt/var/log
 3- **Enable Swap**:
 
 ```bash
-swapon /dev/vg0/swap
+swapon /dev/LVMGroup/swap
 ```
 <div align="center">
   <img width="491" alt="lsblk_output" src="https://github.com/user-attachments/assets/6093480f-da69-4742-96ec-e681c9e53da7">

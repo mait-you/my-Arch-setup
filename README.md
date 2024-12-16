@@ -14,7 +14,7 @@
 setfont ter-132b
 ```
 
-- and if you want to disable it
+- **And if you want to disable it**
 
 ```bach
 setfont
@@ -283,7 +283,7 @@ swapon /dev/vg0/swap
 2. **Install Base System**:
 
 ```bash
-pacstrap /mnt base linux linux-firmware lvm2
+pacstrap /mnt base linux linux-firmware lvm2 networkmanager nano vim efibootmgr cryptsetup
 ```
 Generate fstab:
 
@@ -291,6 +291,96 @@ Generate fstab:
 genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
+## Configure the System
+
+1. **Chroot into the Installation**:
+
+```bash
+arch-chroot /mnt
+```
+
+2. **Set Timezone and Locale**:
+
+```bash
+ln -sf /usr/share/zoneinfo/Africa/Casablanca /etc/localtime
+hwclock --systohc
+echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+locale-gen
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
+```
+
+3. **Set Hostname**:
+
+```bash
+echo "myhostname" > /etc/hostname
+```
+
+4. **Set Hosts File**:
+
+```bash
+nano /etc/hosts
+```
+- and write this:
+```csharp
+127.0.0.1   localhost
+::1         localhost
+127.0.1.1   myhostname.localdomain myhostname
+```
+
+5. **Recreate Initramfs for LUKS and LVM Support**: Edit `nano /etc/mkinitcpio.conf`:
+
+- Ensure `HOOKS` includes `encrypt`, `lvm2`, next to `block` in this order:
+```csharp
+HOOKS=(base udev autodetect keyboard keymap modconf block encrypt lvm2 filesystems fsck)
+```
+
+6. **Generate initramfs**:
+
+```bash
+mkinitcpio -P
+```
+
+7. **Set Root Password**:
+
+```bash
+passwd
+```
+
+8. **Install and Configure Bootloader:** Install GRUB:
+
+```bash
+pacman -S grub
+```
+
+9. **Install GRUB to the disk**:
+
+```bash
+grub-install --target=i386-pc /dev/sda
+```
+
+10. **Configure GRUB to unlock LUKS at boot**:
+
+1. **get UUID**
+```bash
+blkid -o value -s UUID /dev/sda5
+```
+```bash
+blkid -o value -s UUID /dev/mapper/LVMGroup-root
+```
+- Edit `/etc/default/grub` and modify `GRUB_CMDLINE_LINUX`:
+<div align="center">
+  <img width="900" alt="lsblk_output" src="https://github.com/user-attachments/assets/31600665-4f82-4932-8a22-22023175711d">
+</div>
+
+```makefile
+GRUB_CMDLINE_LINUX="cryptdevice=/dev/sda5:cryptlvm root=/dev/LVMGroup/root"
+```
+
+- Generate GRUB config:
+
+```bash
+grub-mkconfig -o /boot/grub/grub.cfg
+```
 
 
 

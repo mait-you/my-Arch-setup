@@ -156,6 +156,8 @@ When launching `cfdisk` on a new disk or one without a valid partition table, it
   lsblk
   ```  
 
+- type `lsblk`
+
 <div align="center">
   <img width="491" alt="lsblk_output" src="https://github.com/user-attachments/assets/40ca7a9a-752c-4279-9987-54fba74a77ed">
 </div>
@@ -172,6 +174,7 @@ mkfs.ext4 /dev/sda1
 2- **Format Logical Volumes**:
 
 - `/root`, `/home`, `/var`, `/srv`, `/tmp`, `/var/log` as **ext4**:
+
   ```bash
   mkfs.ext4 /dev/LVMGroup/root
   mkfs.ext4 /dev/LVMGroup/home
@@ -180,11 +183,20 @@ mkfs.ext4 /dev/sda1
   mkfs.ext4 /dev/LVMGroup/tmp
   mkfs.ext4 /dev/LVMGroup/var-log
   ```
+
 - Swap:
+
   ```bash
   mkswap /dev/LVMGroup/swap
   ```
   - `mkswap`: Make swap space.
+
+- type `lsblk -f`
+
+<div align="center">
+  <img width="900" alt="lsblk-f_output" src="https://github.com/user-attachments/assets/107cc63f-4c67-4b4f-b2a4-6c3a8ac8d836">
+</div>
+
 
 ## Mount File Systems
 
@@ -193,6 +205,9 @@ mkfs.ext4 /dev/sda1
 ```bash
 mount /dev/vg0/root /mnt
 ```
+- **why `/mnt` and not `/`**
+
+  During the installation of Arch Linux, the root filesystem is mounted to `/mnt` because this is where the new system you are going to install is built. The root is mounted to `/mnt` and then after the installation is complete, the system is set up to boot from `/` when you reboot.
 
 2- **Create and Mount Subdirectories**:
 

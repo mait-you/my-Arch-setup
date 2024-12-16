@@ -136,6 +136,7 @@ When launching `cfdisk` on a new disk or one without a valid partition table, it
   lvcreate -L 3G LVMGroup -n var
   lvcreate -L 3G LVMGroup -n srv
   lvcreate -L 3G LVMGroup -n tmp
+  
   lvcreate -L 4G LVMGroup -n var-log
   ```
   - `-L`: refers to a saze of LV

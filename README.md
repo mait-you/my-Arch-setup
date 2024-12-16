@@ -136,18 +136,85 @@ When launching `cfdisk` on a new disk or one without a valid partition table, it
   lvcreate -L 3G LVMGroup -n var
   lvcreate -L 3G LVMGroup -n srv
   lvcreate -L 3G LVMGroup -n tmp
-  
-  lvcreate -L 4G LVMGroup -n var-log
+  ```
+  use `vgs` to see the Remaining free space (I hope it's more/equal than `3.99G`)
+  ```bach
+  lvcreate -L 3.99G LVMGroup -n var-log
   ```
   - `-L`: refers to a saze of LV
   - `LVMGroup`: refers to a place of LV
   - `-n`: refers to a name of LV.
+
 
 5- **Verify LVM Setup**:
 
   ```bash
   lvdisplay
   ```
+  or
+  ```bash
+  lsblk
+  ```  
+
+<div align="center">
+  <img width="491" alt="lsblk_output" src="https://github.com/user-attachments/assets/40ca7a9a-752c-4279-9987-54fba74a77ed">
+</div>
+
+## Format Partitions (File System)
+
+1- **Format `/boot`**:
+
+```bash
+mkfs.ext4 /dev/sda1
+```
+- `mkfs`: Make File System.
+
+2- **Format Logical Volumes**:
+
+- `/root`, `/home`, `/var`, `/srv`, `/tmp`, `/var/log` as **ext4**:
+  ```bash
+  mkfs.ext4 /dev/LVMGroup/root
+  mkfs.ext4 /dev/LVMGroup/home
+  mkfs.ext4 /dev/LVMGroup/var
+  mkfs.ext4 /dev/LVMGroup/srv
+  mkfs.ext4 /dev/LVMGroup/tmp
+  mkfs.ext4 /dev/LVMGroup/var-log
+  ```
+- Swap:
+  ```bash
+  mkswap /dev/LVMGroup/swap
+  ```
+  - `mkswap`: Make swap space.
+
+## Mount File Systems
+
+1- **Mount Root**:
+
+```bash
+mount /dev/vg0/root /mnt
+```
+
+2- **Create and Mount Subdirectories**:
+
+```bash
+mkdir -p /mnt/{boot,home,var,srv,tmp,var/log}
+mount /dev/sda1 /mnt/boot
+mount /dev/vg0/home /mnt/home
+mount /dev/vg0/var /mnt/var
+mount /dev/vg0/srv /mnt/srv
+mount /dev/vg0/tmp /mnt/tmp
+mount /dev/vg0/varlog /mnt/var/log
+```
+
+3- **Enable Swap**:
+
+```bash
+swapon /dev/vg0/swap
+```
+
+
+
+
 
 
 

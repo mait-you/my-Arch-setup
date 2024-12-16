@@ -6,6 +6,21 @@
 - Boot into the Arch Linux ISO from a USB or CD.
 - Ensure you are connected to the internet (`ip link` to check interfaces and `iwctl` for Wi-Fi setup if needed).
 
+## SetFont
+
+- **Youcan change size of font**:
+
+```bach
+setfont ter-132b
+```
+
+- and if you want to disable it
+
+```bach
+setfont
+```
+
+
 ## Partitioning with cfdisk
 
 1- **Launch `cfdisk`**:
@@ -237,7 +252,44 @@ swapon /dev/vg0/swap
   <img width="491" alt="lsblk_output" src="https://github.com/user-attachments/assets/6093480f-da69-4742-96ec-e681c9e53da7">
 </div>
 
+## Install Arch Linux
 
+1. **Select Mirrors**:
+
+  1. **Go to [Mirrors Status](https://archlinux.org/mirrors/status/) and chose Mirrors**.
+  - **How to chose the best Mirror**:
+    1. **Protocol**: `HTTPS`, Because it's safer.
+    2. **Country**: Choose servers close to your geographic location.
+    3. **Completion**: 100%, This means that the server is fully synchronized with the latest packages.
+    4. **μ Delay**: low delay, Lower latency means the server responds faster.
+    5. **Mirror Score** The higher the Mirror Score, the better the server performance. You can choose servers with higher ratings.
+  - **in my case**
+    - `https://mirror.jingk.ai/archlinux/`
+    - `https://mirror.its-tps.fr/archlinux/`
+  
+  2. Edit `nano /etc/pacman.d/mirrorlist` to prioritize the fastest mirrors.
+  - add `Server = https://mirror.jingk.ai/archlinux/$repo/os/$arch`
+  - add `Server = https://mirror.its-tps.fr/archlinux/$repo/os/$arch`
+
+2. **config pacman.conf**
+
+  - use
+  ```bach
+  nano /etc/pacman.conf
+  ```
+  - find `#ParallelDownloads = 5` and uncomment it `ParallelDownloads = 5`
+  this allow you to download multiple packages instead of downloading them one by one.
+
+2. **Install Base System**:
+
+```bash
+pacstrap /mnt base linux linux-firmware lvm2
+```
+Generate fstab:
+
+```bash
+genfstab -U /mnt >> /mnt/etc/fstab
+```
 
 
 

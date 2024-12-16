@@ -360,7 +360,7 @@ grub-install --target=i386-pc /dev/sda
 
 10. **Configure GRUB to unlock LUKS at boot**:
 
-1. **get UUID**
+- **get UUID**
 ```bash
 blkid -o value -s UUID /dev/sda5
 ```
@@ -382,7 +382,22 @@ GRUB_CMDLINE_LINUX="cryptdevice=/dev/sda5:cryptlvm root=/dev/LVMGroup/root"
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
+11. ****
+```bash
+systemctl enable NetworkManager
+```
 
+## Final Steps
+
+1. **Exit Chroot and Reboot**:
+
+```bash
+exit
+umount -R /mnt
+swapoff -a
+reboot
+```
+2. **Verify Installation**: After rebooting, you’ll be prompted to enter your LUKS passphrase to unlock the encrypted disk and boot into Arch Linux.
 
 
 

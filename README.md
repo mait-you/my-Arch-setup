@@ -203,7 +203,7 @@ mkfs.ext4 /dev/sda1
 1- **Mount Root**:
 
 ```bash
-mount /dev/vg0/root /mnt
+mount /dev/LVMGroup/root /mnt
 ```
 - **why `/mnt` and not `/`**
 
@@ -212,13 +212,20 @@ mount /dev/vg0/root /mnt
 2- **Create and Mount Subdirectories**:
 
 ```bash
-mkdir -p /mnt/{boot,home,var,srv,tmp,var/log}
+mkdir /mnt/{boot,home,var,srv,tmp,var}
+```
+
+```bash
+mkdir /mnt/var/log
+```
+
+```bash
 mount /dev/sda1 /mnt/boot
-mount /dev/vg0/home /mnt/home
-mount /dev/vg0/var /mnt/var
-mount /dev/vg0/srv /mnt/srv
-mount /dev/vg0/tmp /mnt/tmp
-mount /dev/vg0/varlog /mnt/var/log
+mount /dev/LVMGroup/home /mnt/home
+mount /dev/LVMGroup/var /mnt/var
+mount /dev/LVMGroup/srv /mnt/srv
+mount /dev/LVMGroup/tmp /mnt/tmp
+mount /dev/LVMGroup/var-log /mnt/var/log
 ```
 
 3- **Enable Swap**:
@@ -226,6 +233,9 @@ mount /dev/vg0/varlog /mnt/var/log
 ```bash
 swapon /dev/vg0/swap
 ```
+<div align="center">
+  <img width="491" alt="lsblk_output" src="https://github.com/user-attachments/assets/6093480f-da69-4742-96ec-e681c9e53da7">
+</div>
 
 
 

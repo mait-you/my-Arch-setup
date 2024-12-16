@@ -229,17 +229,13 @@ mount /dev/LVMGroup/root /mnt
 ```bash
 mkdir /mnt/{boot,home,var,srv,tmp,var}
 ```
-
-```bash
-mkdir /mnt/var/log
-```
-
 ```bash
 mount /dev/sda1 /mnt/boot
 mount /dev/LVMGroup/home /mnt/home
 mount /dev/LVMGroup/var /mnt/var
 mount /dev/LVMGroup/srv /mnt/srv
 mount /dev/LVMGroup/tmp /mnt/tmp
+mkdir /mnt/var/log
 mount /dev/LVMGroup/var-log /mnt/var/log
 ```
 

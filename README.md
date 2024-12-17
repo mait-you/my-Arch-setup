@@ -5,6 +5,10 @@
 1- **Boot the Live Environment**
 - Boot into the Arch Linux ISO from a USB or CD.
 - Ensure you are connected to the internet (`ip link` to check interfaces and `iwctl` for Wi-Fi setup if needed).
+- `station wlan0 get-networks`
+- `station list`
+- `station wlan0 connect <network_name>`
+- `exit`
 
 ## SetFont
 

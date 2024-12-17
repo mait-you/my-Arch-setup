@@ -24,10 +24,24 @@ setfont ter-132b
 setfont
 ```
 
+## set ke
+
+```bach
+localectl list-keymaps
+```
+
+```bach
+loadkeys us
+```
 
 ## Partitioning with cfdisk
 
 1- **Launch `cfdisk`**:
+
+- to see what you use:
+```bach
+cat /sys/firmware/efi/fw_platform_size
+```
 
 ```bach
 cfdisk /dev/sda
@@ -304,6 +318,13 @@ arch-chroot /mnt
 ```bash
 ln -sf /usr/share/zoneinfo/Africa/Casablanca /etc/localtime
 hwclock --systohc
+```
+or
+```bash
+timedatectl set-timezone Africa/Casablanca
+timedatectl set-ntp true
+```
+```bash
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf

@@ -49,6 +49,12 @@ cfdisk /dev/sda
 
 When launching `cfdisk` on a new disk or one without a valid partition table, it prompts you to select a **label type**. Here’s how to choose:
 
+- **To see the Label Type**
+
+```bach
+fdisk -l /dev/sda                                                                                                     :(
+```
+
 - **Label Type Options**:
 
   1- **GPT (GUID Partition Table)**: Modern and recommended for most systems. Supports:

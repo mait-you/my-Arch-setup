@@ -274,6 +274,8 @@ swapon /dev/LVMGroup/swap
 
 ## Install Arch Linux
 
+- `reflector -c Spain -a 12 --sort rate --save /etc/pacman.d/mirrorlist`.
+
 1. **Select Mirrors**:
 
   1. **Go to [Mirrors Status](https://archlinux.org/mirrors/status/) and chose Mirrors**.
